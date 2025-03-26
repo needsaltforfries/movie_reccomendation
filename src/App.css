@@ -40,3 +40,129 @@
 .read-the-docs {
   color: #888;
 }
+
+.App {
+  text-align: center;
+}
+
+.movies-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.movie {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.movie img {
+  width: 100%;
+  height: auto;
+}
+
+.movie h2 {
+  font-size: 1.2em;
+  margin: 0.5em 0;
+}
+
+.movie p {
+  font-size: 0.9em;
+  padding: 0 1em 1em;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.movie-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.movie-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.movie-card h3 {
+  font-size: 1.2em;
+  margin: 8px;
+}
+
+.movie-card p {
+  font-size: 0.9em;
+  margin: 8px;
+  color: #555;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent horizontal scrolling */
+}
+
+.main-content {
+  flex: 3;
+  padding: 16px;
+  overflow-y: auto; /* Allow vertical scrolling for the main content */
+}
+
+.sidebar {
+  flex: 1;
+  background-color: #f4f4f4;
+  padding: 16px;
+  border-left: 1px solid #ddd;
+  overflow-y: auto; /* Allow the sidebar to scroll independently */
+  height: 100vh; /* Full viewport height */
+  position: sticky; /* Keeps the sidebar in view while scrolling */
+  top: 0; /* Stick to the top of the viewport */
+}
+
+.sidebar h2 {
+  font-size: 1.5em;
+  margin-bottom: 16px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sidebar button:hover {
+  background-color: #ff1a1a;
+}
