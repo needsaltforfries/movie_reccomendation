@@ -1,0 +1,51 @@
+.results-container {
+  padding: 20px;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Exactly 5 items per row */
+  gap: 20px; /* Spacing between grid items */
+}
+
+.movie-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.movie-card img {
+  width: 100%;
+  height: auto;
+}
+
+.movie-card h3 {
+  margin: 10px 0;
+  font-size: 1.2em;
+}
+
+.movie-card p {
+  padding: 0 10px;
+  font-size: 0.9em;
+  color: #555;
+  max-height: 60px; /* Limit the height of the text container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  text-align: left; /* Align text to the left for readability */
+  scrollbar-width: thin; /* For modern browsers, make the scrollbar thinner */
+}
+
+/* Optional: Customize the scrollbar for WebKit browsers */
+.movie-card p::-webkit-scrollbar {
+  width: 6px; /* Width of the scrollbar */
+}
+
+.movie-card p::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Color of the scrollbar thumb */
+  border-radius: 4px; /* Rounded corners for the scrollbar thumb */
+}
+
+.movie-card p::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa; /* Darker color on hover */
+}
