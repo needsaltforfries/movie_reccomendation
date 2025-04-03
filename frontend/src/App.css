@@ -76,7 +76,7 @@
 
 .movie-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Adjust card size for smaller screens */
   gap: 16px;
   padding: 16px;
 }
@@ -102,12 +102,12 @@
 }
 
 .movie-card h3 {
-  font-size: 1.2em;
+  font-size: 1em; /* Reduce font size for smaller screens */
   margin: 8px;
 }
 
 .movie-card p {
-  font-size: 0.9em;
+  font-size: 0.8em; /* Reduce font size for smaller screens */
   margin: 8px;
   color: #555;
 }
@@ -120,30 +120,37 @@
 }
 
 .main-content {
-  flex: 3;
+  flex: 1; /* Allow the main content to take up the remaining space */
   padding: 16px;
   overflow-y: auto; /* Allow vertical scrolling for the main content */
+  text-align: left; /* Align the content to the left */
+  margin-right: 250px; /* Add margin to account for the sidebar width */
 }
 
 .sidebar {
-  flex: 1;
-  background-color: #f4f4f4;
-  padding: 16px;
-  border-left: 1px solid #ddd;
-  overflow-y: auto; /* Allow the sidebar to scroll independently */
+  position: fixed; /* Keep the sidebar fixed to the screen */
+  top: 0;
+  right: 0;
   height: 100vh; /* Full viewport height */
-  position: sticky; /* Keeps the sidebar in view while scrolling */
-  top: 0; /* Stick to the top of the viewport */
+  width: 250px; /* Adjust the width as needed */
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
 }
 
 .sidebar h2 {
-  font-size: 1.5em;
-  margin-bottom: 16px;
+  font-size: 1.2em;
+  margin-bottom: 10px;
 }
 
 .sidebar ul {
   list-style: none;
   padding: 0;
+  margin: 0;
+  flex-grow: 1; /* Allow the list to grow and take up available space */
+  overflow-y: auto; /* Add scrolling if the list overflows */
 }
 
 .sidebar li {
@@ -153,7 +160,7 @@
   align-items: center;
 }
 
-.sidebar button {
+.sidebar .button-primary {
   background-color: #ff4d4d;
   color: white;
   border: none;
@@ -163,6 +170,25 @@
   transition: background-color 0.2s;
 }
 
-.sidebar button:hover {
+.sidebar .button:hover {
   background-color: #ff1a1a;
+}
+
+.sidebar .button-secondary {
+  background-color: lightblue;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: auto; /* Push the button to the bottom */
+  margin-bottom: 40px; /* Add margin to raise the button higher */
+  margin-right: 5px;
+  font-size: 1.2em;
+  height: 5em;
+}
+
+.sidebar .button-secondary:hover {
+  background-color: rgb(112, 145, 166);
 }

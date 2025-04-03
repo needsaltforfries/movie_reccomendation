@@ -49,3 +49,33 @@
 .movie-card p::-webkit-scrollbar-thumb:hover {
   background-color: #aaa; /* Darker color on hover */
 }
+
+.controls {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.controls button {
+    padding: 8px 12px;
+    font-size: 1rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.controls button:hover {
+    background-color: #45a049;
+}
+
+.controls input {
+    padding: 8px;
+    font-size: 1rem;
+    width: 150px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

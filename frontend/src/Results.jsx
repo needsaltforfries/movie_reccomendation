@@ -24,10 +24,11 @@ async function getItem(id) {
 }
 
 function Results() {
-
     const location = useLocation(); // Access the state passed from App.jsx
-    const { result } = location.state || {}; // Destructure the result from state
+    const { result, recCount } = location.state || {}; // Destructure the result from state
     const [movies, setMovies] = useState([]); // Initialize movies state
+    const [numRecommendations, setNumRecommendations] = useState(recCount); // Default number of recommendations
+
     useEffect(() => {
         const fetchMovies = async () => {
             console.log("All ids to get:", result.ids);
@@ -60,12 +61,24 @@ function Results() {
 
         fetchMovies(); // Call fetchMovies when component mounts
     }, [result]); // Dependency array makes sure to re-run this when `result` changes
+
     return (
         <div className="results-container">
             <h1>Results</h1>
+            <div className="controls">
+                <label>Show #</label>
+                <input
+                    type="number"
+                    min="1"
+                    max={movies.length || 10} // Limit to the number of available movies
+                    value={numRecommendations}
+                    onChange={(e) => setNumRecommendations(Number(e.target.value))}
+                    placeholder="Enter number"
+                />
+            </div>
             {movies && movies.length > 0 ? (
                 <div className="movie-grid">
-                    {movies.map((movie) => (
+                    {movies.slice(0, numRecommendations).map((movie) => (
                         <div key={movie.id} className="movie-card">
                             <img
                                 src={
