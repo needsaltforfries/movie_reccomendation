@@ -176,8 +176,8 @@ function SearchMovie(){
             </li>
             ))}
         </ul>
-        <button onClick={CSRecommendation} className="button-secondary">Recommend</button>
-        <button onClick={AIReccomendation} className="button-secondary">Recommend using AI</button>
+        <button onClick={CSRecommendation} className="button-secondary">Recommend (SimMatrix)</button>
+        <button onClick={AIReccomendation} className="button-secondary">Recommend (Neural Net)</button>
 
         </div>
     </div>

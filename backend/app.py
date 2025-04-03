@@ -10,12 +10,13 @@ import movieLoader
 from movieLoader import MoviesDataset
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import TruncatedSVD
+import network
+from network import Reccomender
 
 # Load model and pre-process data
 model_path = "model.pth"
-model = torch.load(model_path, map_location=torch.device('cpu'))  # Map the model to the CPU
-
+model = Reccomender(1)  # Initialize the model architecture
+model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))  # Load the state_dict
 #initialize Flask app
 app = Flask(__name__)
 
@@ -48,7 +49,6 @@ def reccomend():
             return jsonify({"error": "No recommendations found"}), 404
         
         return jsonify({
-            "num_recommendations": 3,
             "ids": reccomendations
         })
     except Exception as e:
@@ -65,26 +65,28 @@ def reccomend_AI():
         mdf = pd.DataFrame(movies)
 
         # Ensure features are valid
-        features = ['title', 'overview']
+        mdf['title'] = mdf['title'].fillna('Unknown')
+        mdf['overview'] = mdf['overview'].fillna('Unknown')
+        mdf['title'] = mdf['title'].apply(movies_dataset.clean_text)
+        mdf['overview'] = mdf['overview'].apply(movies_dataset.clean_text)
+
+        features = mdf['title'] + ' ' + mdf['overview']
         # Convert text data to TF-IDF vectors
         vctr = TfidfVectorizer(stop_words='english')
         tfidf_matrix = vctr.fit_transform(features)
 
-        # Validate TF-IDF matrix
-        if tfidf_matrix.shape[0] == 0 or tfidf_matrix.shape[1] == 0:
-            return jsonify({"error": "Invalid input data"}), 400
-
-        # Apply TruncatedSVD for dimensionality reduction
-        svd = TruncatedSVD(n_components=32)
-        reduced_movies = svd.fit_transform(tfidf_matrix)
-
         # Aggregate the reduced vectors
-        aggregated_vector = np.mean(reduced_movies, axis=0)
-        aggregated_tensor = torch.tensor(aggregated_vector, dtype=torch.float32).unsqueeze(0)
+        aggregated_vector = np.mean(tfidf_matrix.toarray(), axis=0)  # Convert sparse matrix to dense and aggregate
+        if len(aggregated_vector) < 32:
+            # Pad with zeroes if the vector is shorter than 32
+            aggregated_vector = np.pad(aggregated_vector, (0, 32 - len(aggregated_vector)), mode='constant')
+        else:
+            # Slice to ensure the vector has exactly 32 elements
+            aggregated_vector = aggregated_vector[:32]
+        aggregated_tensor = torch.tensor(aggregated_vector, dtype=torch.float32).unsqueeze(0).unsqueeze(1)
 
         # Pass the tensor to the neural network
-        output_tensor = model(aggregated_tensor)
-
+        output_tensor = model(aggregated_tensor).detach().numpy()
         # Get recommendations
         recommendations = movies_dataset.GetSimilarItems(output_tensor, rec_count)
         print("Recommended IDs: ", recommendations)
@@ -93,7 +95,6 @@ def reccomend_AI():
             return jsonify({"error": "No recommendations found"}), 404
 
         return jsonify({
-            "num_recommendations": len(recommendations),
             "ids": recommendations
         })
     except Exception as e:

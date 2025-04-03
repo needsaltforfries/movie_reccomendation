@@ -88,7 +88,7 @@ class MoviesDataset(Dataset):
         
         most_similar_idxs = np.argsort(sim[0].numpy())[::-1][:top_n]
         
-        return self.data.iloc[most_similar_idxs]['title'].tolist()
+        return self.data.iloc[most_similar_idxs]['id'].tolist()
     
     def GetSimilarItemsById(self, id_list, top_n=1):
         results = []
