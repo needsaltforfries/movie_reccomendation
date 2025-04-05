@@ -124,11 +124,12 @@ function SearchMovie(){
         <h2>Movie Recomendation App</h2>
         <div>
             <input
-            type="text"
-            placeholder="Search for a movie..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+                type="text"
+                placeholder="Search for a movie..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
             />
+            <p># Recommendations
             <input
                 type="number"
                 min="1"
@@ -140,7 +141,7 @@ function SearchMovie(){
                     const value = Math.min(Number(e.target.value), 10); // Ensure the value does not exceed 10
                     setRecCount(value);
                 }}
-            />
+            /></p>
             <button onClick={fetchMovies}>Search</button>
         </div>
 

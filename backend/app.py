@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory, make_response
 from flask import request
 from flask_cors import CORS
 
@@ -18,7 +18,7 @@ model_path = "model.pth"
 model = Reccomender(1)  # Initialize the model architecture
 model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))  # Load the state_dict
 #initialize Flask app
-app = Flask(__name__)
+app = Flask(__name__, static_folder = './client/dist', static_url_path = '/')
 
 #enable CORS for this origin
 CORS(app, origins=["http://localhost:5173"])
@@ -28,9 +28,13 @@ dp = pd.read_csv('./tmdb_5000_movies.csv')
 movies_dataset = MoviesDataset(dp)
 
 #default route test
-@app.route('/', methods=['GET'])
+@app.route('/')
 def hello_world():
-    return jsonify({"message": "Hello from Flask!"})
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('./client/dist', filename, mimetype='application/javascript')
 
 #this route uses similarity matrix to get reccomendations
 @app.route('/recommend', methods=['POST'])

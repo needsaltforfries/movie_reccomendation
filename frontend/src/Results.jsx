@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useState, useEffect } from 'react';
 import './Results.css'; // Add a CSS file for styling the grid
 
@@ -28,6 +28,7 @@ function Results() {
     const { result, recCount } = location.state || {}; // Destructure the result from state
     const [movies, setMovies] = useState([]); // Initialize movies state
     const [numRecommendations, setNumRecommendations] = useState(recCount); // Default number of recommendations
+    const navigate = useNavigate(); // Initialize navigate hook
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -66,15 +67,7 @@ function Results() {
         <div className="results-container">
             <h1>Results</h1>
             <div className="controls">
-                <label>Show #</label>
-                <input
-                    type="number"
-                    min="1"
-                    max={movies.length || 10} // Limit to the number of available movies
-                    value={numRecommendations}
-                    onChange={(e) => setNumRecommendations(Number(e.target.value))}
-                    placeholder="Enter number"
-                />
+                <button onClick={() => navigate(-1)}>Back</button> {/* Back button */}
             </div>
             {movies && movies.length > 0 ? (
                 <div className="movie-grid">
