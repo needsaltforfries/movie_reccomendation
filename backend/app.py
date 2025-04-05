@@ -2,6 +2,7 @@
 from flask import Flask, jsonify, send_from_directory, make_response
 from flask import request
 from flask_cors import CORS
+import mimetypes
 
 import torch
 import numpy as np
@@ -19,6 +20,7 @@ model = Reccomender(1)  # Initialize the model architecture
 model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))  # Load the state_dict
 #initialize Flask app
 app = Flask(__name__, static_folder = './client/dist', static_url_path = '/')
+mimetypes.add_type('application/javascript', '.js')
 
 #enable CORS for this origin
 CORS(app, origins=["http://localhost:5173"])
@@ -32,10 +34,6 @@ movies_dataset = MoviesDataset(dp)
 def hello_world():
     return send_from_directory(app.static_folder, 'index.html')
 
-@app.route('/static/<path:filename>')
-def serve_static(filename):
-    return send_from_directory('./client/dist', filename, mimetype='application/javascript')
-
 #this route uses similarity matrix to get reccomendations
 @app.route('/recommend', methods=['POST'])
 def reccomend():
@@ -43,9 +41,6 @@ def reccomend():
         data = request.get_json()
         rec_count = int(data.get('rec_count'))
         id_list = data.get('id_list')
-        print("Received data:", data)
-        print(id_list)
-        # min(len(movies_dataset), num_reccomendations)
         reccomendations = movies_dataset.GetSimilarItemsById(id_list, rec_count)
         print("Reccomended IDs: ", reccomendations)
 
@@ -93,8 +88,6 @@ def reccomend_AI():
         output_tensor = model(aggregated_tensor).detach().numpy()
         # Get recommendations
         recommendations = movies_dataset.GetSimilarItems(output_tensor, rec_count)
-        print("Recommended IDs: ", recommendations)
-
         if len(recommendations) == 0:
             return jsonify({"error": "No recommendations found"}), 404
 
