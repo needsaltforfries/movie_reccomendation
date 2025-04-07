@@ -26,7 +26,7 @@ mimetypes.add_type('application/javascript', '.js')
 CORS(app, origins=["http://localhost:5173"])
 
 #load data
-dp = pd.read_csv('./tmdb_5000_movies.csv')
+dp = pd.read_csv('./tmdb_5000_movies.csv', usecols=['id', 'title', 'genres', 'keywords', 'original_language', 'overview', 'vote_average'])
 movies_dataset = MoviesDataset(dp)
 
 #default route test
